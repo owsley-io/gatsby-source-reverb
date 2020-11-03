@@ -1,0 +1,9 @@
+{
+  "name": "gatsby-source-reverb",
+  "description": "Gatsby source plugin for building websites using a reverb.com as a data source",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Rich Soni <rich@owsley.io> (owsley.io)",
+  "license": "MIT",
+  "private": false
+}

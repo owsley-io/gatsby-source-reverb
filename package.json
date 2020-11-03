@@ -1,9 +1,34 @@
 {
+  "private": false,
   "name": "gatsby-source-reverb",
   "description": "Gatsby source plugin for building websites using a reverb.com as a data source",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Rich Soni <rich@owsley.io> (owsley.io)",
+  "bugs": {
+    "url": "https://github.com/owsley-io/gatsby-source-reverb/issues"
+  },
+  "homepage": "https://github.com/owsley-io/gatsby-source-reverb",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-plugin",
+    "reverb"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+  },
+  "scripts": {
+  },
   "license": "MIT",
-  "private": false
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owsley-io/gatsby-source-reverb.git"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  }
 }

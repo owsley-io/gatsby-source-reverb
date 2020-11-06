@@ -16,13 +16,15 @@
     "reverb"
   ],
   "dependencies": {
+    "array.prototype.flat": "^1.2.3",
+    "axios": "^0.21.0",
+    "gatsby-source-apiserver": "^2.1.7",
+    "gatsby-source-filesystem": "^2.4.1",
+    "jest": "^26.6.3"
   },
-  "devDependencies": {
-  },
-  "peerDependencies": {
-  },
-  "scripts": {
-  },
+  "devDependencies": {},
+  "peerDependencies": {},
+  "scripts": {},
   "license": "MIT",
   "repository": {
     "type": "git",

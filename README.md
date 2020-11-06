@@ -2,7 +2,7 @@
   <img alt="gatsby-source-reverb" src="./logo.png" />
 </p>
 
-Source plugin for pulling store listings into Gatsby from [Reverb].  Currently limited to listings for a single store, but open to modifying to a more flexible API.
+Source plugin for pulling shop listings into Gatsby from [Reverb].
 
 # Install
 ```
@@ -20,7 +20,7 @@ module.exports = {
     {
       resolve: `gatsby-source-reverb`,
       options: {
-        storeId: `storeId`,
+        shopId: `shopId`,
         // Learn about environment variables: https://gatsby.dev/env-vars
         personalAccessToken: process.env.REVERB_PERSONAL_ACCESS_TOKEN,
       },
@@ -31,15 +31,18 @@ module.exports = {
 
 # Configuration Options
 
-**`storeId` [string][required]**
+**`shopId` [string][required]**
 
-The ID of the Reverb storefront.  This can be obtained from the storefronts URL.  For example, the id for https://reverb.com/shop/owsley-vintage is `owsley-vintage`.
+The ID of the Reverb shop.  This can be obtained from the shop URL.  For example, the id for https://reverb.com/shop/owsley-vintage is `owsley-vintage`.
 
 **`personalAccessToken`[string][required]**
 
 A **Personal Access Token** from Reverb.  [Follow this guide to obtain a Personal Access Token](https://www.reverb-api.com/docs/generating-personal-access-tokens). 
 
 We recommended this token be saved as an environment variable named `REVERB_PERSONAL_ACCESS_TOKEN`.
+
+**`verbose`[boolean][optional]**
+If present, additional logging for the plugin will be emitted.
 
 # How to query for nodes
 

@@ -6,8 +6,10 @@
  */
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 const {flattenListings, getNextPage, getAllPages, getPage} = require('./lib/getShopListings')
+const brandAssets = require('./brand-assets')
 
 const LISTING_TYPE = "ReverbListing"
+const BRAND_ASSET_TYPE = 'ReverbBrandAsset'
 
 let isVerbose = false
 const report = (str = '') => ['[gastby-source-reverb]', str].join(' ')
@@ -28,7 +30,7 @@ exports.onPreInit = ({reporter}, pluginOptions) => {
   verbose(reporter.success, "loaded")
 }
 
-exports.sourceNodes = async ({reporter, actions,createContentDigest, createNodeId}, {personalAccessToken, shopId}) => {
+const createListingNodes = async ({reporter, actions,createContentDigest, createNodeId}, {personalAccessToken, shopId}) => {
   const { createNode } = actions
   try {
     const pages = await getAllPages(getPage, {params: {personalAccessToken, shopId}, getNextPage})
@@ -51,10 +53,44 @@ exports.sourceNodes = async ({reporter, actions,createContentDigest, createNodeI
     reporter.error(report(), error)
   }
   return
+
 }
 
 
-exports.onCreateNode = async ({
+const createBrandAssetNodes = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+  node,
+}) => {
+  Object
+    .entries(brandAssets)
+    .map(([name, url]) => ({name, url}))
+    .map(async(props) => {
+      const {name, url} = props
+      createNode({
+        name,
+        url,
+        id: createNodeId(`reverb-brand-asset-${name}`),
+        parent: null,
+        children: [],
+        internal: {
+          type: BRAND_ASSET_TYPE,
+          content: JSON.stringify(props),
+          contentDigest: createContentDigest(props),
+          mediaType: 'application/json',
+        }
+        })
+    })
+  return
+}
+
+exports.sourceNodes = async (config, params) => {
+  await createListingNodes(config, params)
+  await createBrandAssetNodes(config, params)
+}
+
+const createListingTypePhotos = async ({
   actions: { createNode },
   getCache,
   createNodeId,
@@ -80,4 +116,30 @@ exports.onCreateNode = async ({
       }
     }
   }
+}
+
+const createBrandAssetTypePhotos = async ({
+  actions: { createNode },
+  getCache,
+  createNodeId,
+  node,
+}) => {
+  if (node.internal.type === BRAND_ASSET_TYPE) {
+    const fileNode = await createRemoteFileNode({
+      url: node.url,
+      getCache,
+      createNode,
+      createNodeId,
+      parentNodeId: node.id,
+    })
+    if (fileNode) {
+      node.imageFile = fileNode.id
+      node.imageFile___NODE = fileNode.id
+    }
+  }
+}
+
+exports.onCreateNode = async (props) => {
+  await createListingTypePhotos(props)
+  await createBrandAssetTypePhotos(props)
 }

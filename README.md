@@ -2,7 +2,16 @@
   <img alt="gatsby-source-reverb" src="./logo.png" />
 </p>
 
-Source plugin for pulling shop listings into Gatsby from [Reverb].
+Source plugin for integrating [Reverb] into the Gatsby framework.
+
+## Listings
+
+* Fetches shop listings, and exposes them as nodes in the GraphQL interface of Gatsby
+* Creates FileNodes for each listing's `photo` property
+
+## Brand Assets
+
+* Creates FileNodes for each asset provided on https://reverb.com/page/reverb-brand-assets
 
 # Install
 ```

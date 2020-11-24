@@ -61,6 +61,7 @@ const createBrandAssetNodes = async ({
   actions: { createNode },
   createNodeId,
   createContentDigest,
+  reporter,
   node,
 }) => {
   Object
@@ -68,6 +69,7 @@ const createBrandAssetNodes = async ({
     .map(([name, url]) => ({name, url}))
     .map(async(props) => {
       const {name, url} = props
+      verbose(reporter.success, `createBrandAssetNodes created ${name}`)
       createNode({
         name,
         url,
@@ -94,6 +96,7 @@ const createListingTypePhotos = async ({
   actions: { createNode },
   getCache,
   createNodeId,
+  reporter,
   node,
 }) => {
   // because onCreateNode is called for all nodes, verify that you are only running this code on nodes created by your plugin
@@ -110,6 +113,7 @@ const createListingTypePhotos = async ({
       })
       if (fileNode) {
         // with schemaCustomization: add a field `remoteImage` to your source plugin's node from the File node
+        verbose(reporter.success, `created file node for ${LISTING_TYPE}: ${fileNode.id}`)
         node.listingImage = fileNode.id
         // OR with inference: link your source plugin's node to the File node without schemaCustomization like this, but creates a less sturdy schema
         node.listingImage___NODE = fileNode.id
@@ -121,6 +125,7 @@ const createListingTypePhotos = async ({
 const createBrandAssetTypePhotos = async ({
   actions: { createNode },
   getCache,
+  reporter,
   createNodeId,
   node,
 }) => {
@@ -133,6 +138,7 @@ const createBrandAssetTypePhotos = async ({
       parentNodeId: node.id,
     })
     if (fileNode) {
+      verbose(reporter.success, `created file node for ${BRAND_ASSET_TYPE}: ${fileNode.id}`)
       node.imageFile = fileNode.id
       node.imageFile___NODE = fileNode.id
     }
@@ -140,6 +146,9 @@ const createBrandAssetTypePhotos = async ({
 }
 
 exports.onCreateNode = async (props) => {
+  const {reporter} = props;
+  verbose(reporter.info, `onCreateNode start`)
   await createListingTypePhotos(props)
   await createBrandAssetTypePhotos(props)
+  verbose(reporter.info, `onCreateNode finish`)
 }
